@@ -31,7 +31,7 @@ def num_sevens(x):
     elif x < 10:
         return 0
     else:
-        return num_sevens((x//10)) + num_sevens(x % 10)
+        return num_sevens(x//10) + num_sevens(x % 10)
 
 def pingpong(n):
     """Return the nth element of the ping-pong sequence.
