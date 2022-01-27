@@ -66,6 +66,34 @@ def pingpong(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    def pingpong_helper(value,index,direction):
+        if index == n:
+            return value
+        if (num_sevens(index) > 0 or index % 7 == 0):
+            return pingpong_helper(value - direction, index + 1, direction * -1)
+        else:
+            return pingpong_helper(value + direction, index + 1, direction)
+
+    return pingpong_helper(1,1,1)
+
+
+
+"""non recursive solution
+    i = 0
+    count = 0
+    inc = 1
+    while(i<n):
+
+        if((i%7==0 or num_sevens(i)>0) and i!=0):
+            inc=inc*-1
+        count += inc
+        i+=1
+        #print("DEBUG:",count)
+    return count
+
+  """
+
+
 
 def count_change(total):
     """Return the number of ways to make change for total.
