@@ -113,6 +113,16 @@ def count_change(total):
     """
     "*** YOUR CODE HERE ***"
 
+    def change_helper(total,small_coin):
+        if total == 0:
+            return 1
+        elif small_coin > total:
+            return 0
+        else:
+            return change_helper(total - small_coin, small_coin) + change_helper(total,2*small_coin)
+
+    return change_helper(total,1)
+
 def missing_digits(n):
     """Given a number a that is in sorted, increasing order,
     return the number of missing digits in n. A missing digit is
