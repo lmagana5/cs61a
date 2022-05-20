@@ -144,6 +144,22 @@ def missing_digits(n):
     """
     "*** YOUR CODE HERE ***"
 
+#messy solution
+    def missing_helper(n,last,missing):
+        if n < 1:
+            return 0
+        else:
+            last = n%10
+            if (n//10)%10 == last:
+                return missing_helper(n//10,last,missing)
+
+            elif last<missing:
+                return missing_helper(n,last,missing-1) + 1
+
+            else:
+                return missing_helper(n//10,last,missing-1)
+
+    return missing_helper(n,n%10,n%10)
 
 ###################
 # Extra Questions #
