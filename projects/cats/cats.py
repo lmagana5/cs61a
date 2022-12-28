@@ -29,7 +29,6 @@ def choose(paragraphs, select, k):
 def about(topic):
     """Return a select function that returns whether a paragraph contains one
     of the words in TOPIC.
-
     >>> about_dogs = about(['dog', 'dogs', 'pup', 'puppy'])
     >>> choose(['Cute Dog!', 'That is a cat.', 'Nice pup!'], about_dogs, 0)
     'Cute Dog!'
@@ -68,12 +67,22 @@ def accuracy(typed, reference):
     >>> accuracy('', 'Cute Dog.')
     0.0
     """
+
     typed_words = split(typed)
     reference_words = split(reference)
-    # BEGIN PROBLEM 3
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 3
+    percentage = 0
+    j = len(typed_words)
 
+    if not typed_words or not reference_words:
+        return 0.0
+    if len(typed_words) != len(reference_words):
+        j = min(len(typed_words), len(reference_words))
+
+    for i in range(j):
+        if typed_words[i] == reference_words[i]:
+            percentage += 1
+
+    return (percentage / len(typed_words)) * 100
 
 def wpm(typed, elapsed):
     """Return the words-per-minute (WPM) of the TYPED string."""
