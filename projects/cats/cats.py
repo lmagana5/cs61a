@@ -38,7 +38,7 @@ def about(topic):
     assert all([lower(x) == x for x in topic]), 'topics should be lowercase.'
 
     def select(paragraph):
-        # convert lists to sets (and parse paragraph) to compare them with intersection function
+        # convert lists to sets (and parses paragraph) to compare them with intersection function
 
         topic_set = set(topic)
         paragraph_set = set(split(lower(remove_punctuation(paragraph))))
@@ -84,22 +84,33 @@ def accuracy(typed, reference):
 
     return (percentage / len(typed_words)) * 100
 
+
 def wpm(typed, elapsed):
     """Return the words-per-minute (WPM) of the TYPED string."""
     assert elapsed > 0, 'Elapsed time must be positive'
-    # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 4
+    minute = 60
+
+    return (len(typed) / 5) * (minute / elapsed)
 
 
 def autocorrect(user_word, valid_words, diff_function, limit):
     """Returns the element of VALID_WORDS that has the smallest difference
-    from USER_WORD. Instead returns USER_WORD if that difference is greater
+    from USER_WORD. Instead, returns USER_WORD if that difference is greater
     than LIMIT.
     """
-    # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 5
+
+    dif = []
+    if user_word in valid_words:
+        return user_word
+
+    for i in range(len(valid_words)):
+        dif.append(diff_function(user_word, valid_words[i], limit))
+
+    if min(dif) > limit:
+        return user_word
+
+    return valid_words[dif.index(min(dif))]
+
 
 
 def sphinx_swap(start, goal, limit):
