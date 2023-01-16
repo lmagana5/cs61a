@@ -124,33 +124,30 @@ def sphinx_swap(start, goal, limit):
     elif limit < 0:
         return limit ** limit
 
-    if start[:1] == goal[:1]:
-        return sphinx_swap(start[1:], goal[1:], limit)
     else:
-        return sphinx_swap(start[1:], goal[1:], limit - 1) + 1
+        if start[:1] == goal[:1]:
+            return sphinx_swap(start[1:], goal[1:], limit)
+        else:
+            return sphinx_swap(start[1:], goal[1:], limit - 1) + 1
 
 
 def feline_fixes(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
-    assert False, 'Remove this line'
 
-    if ______________:  # Fill in the condition
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    if start == "" or goal == "" or limit < 0:
+        return abs(len(start) - len(goal))
 
-    elif ___________:  # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    elif limit < 0:
+        return limit ** limit
+
+    elif start[:1] == goal[:1]:
+        return feline_fixes(start[1:], goal[1:], limit)
 
     else:
-        add_diff = ...  # Fill in these lines
-        remove_diff = ...
-        substitute_diff = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+        add = feline_fixes(start, goal[1:], limit - 1) + 1
+        remove = feline_fixes(start[1:], goal, limit - 1) + 1
+        substitute = feline_fixes(start[1:], goal[1:], limit - 1) + 1
+        return min(add, remove, substitute)
 
 
 def final_diff(start, goal, limit):
