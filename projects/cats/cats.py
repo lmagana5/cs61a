@@ -162,10 +162,19 @@ def final_diff(start, goal, limit):
 
 def report_progress(typed, prompt, id, send):
     """Send a report of your id and progress so far to the multiplayer server."""
-    # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 8
+    correct = 0
 
+    for i in range(len(typed)):
+        if typed[i] != prompt[i]:
+            correct = i
+            break
+        else:
+            correct = len(typed)
+
+    progress = correct / len(prompt)
+    send_progress = {'id': id, 'progress': progress}
+    send(send_progress)
+    return progress
 
 def fastest_words_report(times_per_player, words):
     """Return a text description of the fastest words typed by each player."""
