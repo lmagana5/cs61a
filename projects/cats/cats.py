@@ -112,15 +112,22 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     return valid_words[dif.index(min(dif))]
 
 
-
 def sphinx_swap(start, goal, limit):
     """A diff function for autocorrect that determines how many letters
     in START need to be substituted to create GOAL, then adds the difference in
     their lengths.
     """
-    # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
-    # END PROBLEM 6
+
+    if start == "" or goal == "" or limit < 0:
+        return abs(len(start) - len(goal))
+
+    elif limit < 0:
+        return limit ** limit
+
+    if start[:1] == goal[:1]:
+        return sphinx_swap(start[1:], goal[1:], limit)
+    else:
+        return sphinx_swap(start[1:], goal[1:], limit - 1) + 1
 
 
 def feline_fixes(start, goal, limit):
