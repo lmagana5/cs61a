@@ -172,7 +172,10 @@ def report_progress(typed, prompt, id, send):
             correct = len(typed)
 
     progress = correct / len(prompt)
-    send_progress = {'id': id, 'progress': progress}
+    send_progress = {
+        'id': id,
+        'progress': progress
+    }
     send(send_progress)
     return progress
 
@@ -197,10 +200,16 @@ def time_per_word(times_per_player, words):
                           the player finished typing each word.
         words: a list of words, in the order they are typed.
     """
-    # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 9
 
+    for i in range(len(times_per_player)):
+        for j in range(len(times_per_player[i])):
+            try:
+                times_per_player[i][j] = times_per_player[i][j+1] - times_per_player[i][j]
+            except IndexError:
+                pass
+        times_per_player[i].pop()
+
+    return game(words, times_per_player)
 
 def fastest_words(game):
     """Return a list of lists of which words each player typed fastest.
