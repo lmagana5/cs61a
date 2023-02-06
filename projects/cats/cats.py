@@ -179,6 +179,7 @@ def report_progress(typed, prompt, id, send):
     send(send_progress)
     return progress
 
+
 def fastest_words_report(times_per_player, words):
     """Return a text description of the fastest words typed by each player."""
     game = time_per_word(times_per_player, words)
@@ -202,14 +203,12 @@ def time_per_word(times_per_player, words):
     """
 
     for i in range(len(times_per_player)):
-        for j in range(len(times_per_player[i])):
-            try:
-                times_per_player[i][j] = times_per_player[i][j+1] - times_per_player[i][j]
-            except IndexError:
-                pass
+        for j in range(len(times_per_player[i]) - 1):
+            times_per_player[i][j] = times_per_player[i][j + 1] - times_per_player[i][j]
         times_per_player[i].pop()
 
     return game(words, times_per_player)
+
 
 def fastest_words(game):
     """Return a list of lists of which words each player typed fastest.
@@ -221,9 +220,26 @@ def fastest_words(game):
     """
     players = range(len(all_times(game)))  # An index for each player
     words = range(len(all_words(game)))  # An index for each word
-    # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 10
+    temp = 0
+    player = 0
+    fastest_player = []
+    # create list of lists
+    for i in players:
+        fastest_player.append([])
+
+    # find fastest player
+    for i in words:
+        for j in players:
+            if temp == 0:
+                temp = time(game, j, i)
+                player = j
+            elif time(game, j, i) < temp:
+                temp = time(game, j, i)
+                player = j
+        fastest_player[player].append(word_at(game, i))
+        temp = 0
+
+    return fastest_player
 
 
 def game(words, times):
