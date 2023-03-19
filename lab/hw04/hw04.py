@@ -97,7 +97,14 @@ def balanced(m):
     >>> balanced(mobile(arm(1, w), arm(1, v)))
     False
     """
-    "*** YOUR CODE HERE ***"
+
+    if is_planet(m):
+        return True
+    else:
+        left_arm = balanced(end(left(m))) + length(left(m)) * total_weight(end(left(m)))
+        right_arm = balanced(end(right(m))) + length(right(m)) * total_weight(end(right(m)))
+        return left_arm == right_arm
+
 
 def totals_tree(m):
     """Return a tree representing the mobile with its total weight at the root.
