@@ -168,8 +168,11 @@ def replace_leaf(t, old, replacement):
     >>> laerad == yggdrasil # Make sure original tree is unmodified
     True
     """
-    "*** YOUR CODE HERE ***"
-
+    if is_leaf(t) and label(t) is old:
+        return tree(replacement)
+    else:
+        laerad = [replace_leaf(b, old, replacement) for b in branches(t)]
+        return tree(label(t), laerad)
 def make_withdraw(balance, password):
     """Return a password-protected withdraw function.
 
@@ -239,8 +242,6 @@ def make_joint(withdraw, old_pass, new_pass):
     "Your account is locked. Attempts: ['my', 'secret', 'password']"
     """
     "*** YOUR CODE HERE ***"
-
-
 
 ## Tree Methods ##
 
