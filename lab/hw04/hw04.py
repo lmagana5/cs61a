@@ -218,7 +218,7 @@ def make_withdraw(balance, password):
     True
     """
     incorrect_pass = []
-    
+
     def withdraw(amount, key):
         nonlocal balance, password
         if len(incorrect_pass) == 3:
@@ -272,7 +272,18 @@ def make_joint(withdraw, old_pass, new_pass):
     >>> make_joint(w, 'hax0r', 'hello')
     "Your account is locked. Attempts: ['my', 'secret', 'password']"
     """
-    "*** YOUR CODE HERE ***"
+
+    error = withdraw(0, old_pass)
+    if type(error) == str:
+        return error
+
+    def joint(amount, password):
+        if password is new_pass:
+            return withdraw(amount, old_pass)
+        else:
+            return withdraw(amount, password)
+
+    return joint
 
 
 ## Tree Methods ##
