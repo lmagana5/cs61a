@@ -169,13 +169,12 @@ class ThrowerAnt(Ant):
 
         This method returns None if there is no such Bee (or none in range).
         """
-        #self.place
-        while self.place != beehive:
-            print("DEBUG:", self.place.entrance, beehive)
-            if not self.place.bees:
-                self.place = self.place.entrance
+        ant_place = self.place
+        while ant_place is not beehive:
+            if not ant_place.bees:
+                ant_place = ant_place.entrance
             else:
-                return random_or_none(self.place.bees)
+                return random_or_none(ant_place.bees)
         return None
 
      #   return random_or_none(self.place.bees) # REPLACE THIS LINE
@@ -206,7 +205,7 @@ class ShortThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 4
 
 class LongThrower(ThrowerAnt):
@@ -214,11 +213,9 @@ class LongThrower(ThrowerAnt):
 
     name = 'Long'
     food_cost = 2
-    # OVERRIDE CLASS ATTRIBUTES HERE
-    # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
-    # END Problem 4
+    implemented = True   # Change to True to view in the GUI
 
+    
 class FireAnt(Ant):
     """FireAnt cooks any Bee in its Place when it expires."""
 
