@@ -5,7 +5,7 @@ test = {
     {
       'cases': [
         {
-          'answer': 'd867280d511300bf4fa42dae8866a575',
+          'answer': 'All Ant types have a blocks_path attribute that is inherited from the Ant superclass',
           'choices': [
             r"""
             All Ant types have a blocks_path attribute that is inherited from
@@ -16,7 +16,7 @@ test = {
             'All Ant types except for NinjaAnt have a blocks_path attribute'
           ],
           'hidden': False,
-          'locked': True,
+          'locked': False,
           'question': 'Which Ant types have a blocks_path attribute?'
         },
         {
