@@ -65,7 +65,6 @@ class Insect:
         >>> test_insect = Insect(5)
         >>> test_insect.reduce_armor(2)
         >>> test_insect.armor
-        3
         """
         self.armor -= amount
         if self.armor <= 0:
@@ -232,11 +231,8 @@ class FireAnt(Ant):
     name = 'Fire'
     damage = 3
     food_cost = 5
-    # OVERRIDE CLASS ATTRIBUTES HERE
-    # BEGIN Problem 5
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
 
-    # END Problem 5
 
     def __init__(self, armor=3):
         """Create an Ant with an ARMOR quantity."""
@@ -249,9 +245,16 @@ class FireAnt(Ant):
         Make sure to damage each bee in the current place, and apply the bonus
         if the fire ant dies.
         """
-        # BEGIN Problem 5
-        "*** YOUR CODE HERE ***"
-        # END Problem 5
+        bees = self.place.bees
+        bees_copy = bees[:]
+        Insect.reduce_armor(self, amount)
+        for d in range(len(bees_copy)):
+            if self.armor <= 0:
+                Insect.reduce_armor(bees_copy[d], amount + self.damage)
+            else:
+                Insect.reduce_armor(bees_copy[d], amount)
+
+
 
 
 class HungryAnt(Ant):
