@@ -263,26 +263,28 @@ class HungryAnt(Ant):
     """
     name = 'Hungry'
     food_cost = 4
-    # OVERRIDE CLASS ATTRIBUTES HERE
-    # BEGIN Problem 6
-    implemented = False  # Change to True to view in the GUI
+    time_to_digest = 3
+    implemented = True  # Change to True to view in the GUI
 
     # END Problem 6
 
     def __init__(self, armor=1):
-        # BEGIN Problem 6
-        "*** YOUR CODE HERE ***"
-        # END Problem 6
+        Ant.__init__(self, armor)
+        self.digesting = 0
+
 
     def eat_bee(self, bee):
-        # BEGIN Problem 6
-        "*** YOUR CODE HERE ***"
-        # END Problem 6
+        if bee is not None:
+            self.digesting = self.time_to_digest
+            bee.reduce_armor(bee.armor)
+
+
 
     def action(self, gamestate):
-        # BEGIN Problem 6
-        "*** YOUR CODE HERE ***"
-        # END Problem 6
+        if self.digesting > 0:
+            self.digesting = self.digesting - 1
+        else:
+            self.eat_bee(random_or_none(self.place.bees))
 
 
 class NinjaAnt(Ant):
