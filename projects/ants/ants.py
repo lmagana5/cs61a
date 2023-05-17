@@ -248,11 +248,11 @@ class FireAnt(Ant):
         bees = self.place.bees
         bees_copy = bees[:]
         Insect.reduce_armor(self, amount)
-        for d in range(len(bees_copy)):
+        for bee in range(len(bees_copy)):
             if self.armor <= 0:
-                Insect.reduce_armor(bees_copy[d], amount + self.damage)
+                Insect.reduce_armor(bees_copy[bee], amount + self.damage)
             else:
-                Insect.reduce_armor(bees_copy[d], amount)
+                Insect.reduce_armor(bees_copy[bee], amount)
 
 
 
