@@ -267,7 +267,6 @@ class HungryAnt(Ant):
     time_to_digest = 3
     implemented = True  # Change to True to view in the GUI
 
-    # END Problem 6
 
     def __init__(self, armor=1):
         Ant.__init__(self, armor)
@@ -304,10 +303,16 @@ class NinjaAnt(Ant):
         for bee in range(len(bees_copy)):
             Insect.reduce_armor(bees_copy[bee], self.damage)
 
+class WallAnt(Ant):
+    """WallAnt does nothing"""
 
-# BEGIN Problem 8
-# The WallAnt class
-# END Problem 8
+    name = 'Wall'
+    food_cost = 4
+    implemented = True
+
+    def __init__(self, armor=4):
+        Ant.__init__(self, armor)
+
 
 class ContainerAnt(Ant):
     def __init__(self, *args, **kwargs):
