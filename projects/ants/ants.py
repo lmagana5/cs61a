@@ -123,7 +123,13 @@ class Ant(Insect):
             place.ant = self
         else:
             # BEGIN Problem 9
-            assert place.ant is None, 'Two ants in {0}'.format(place)
+            if place.ant.can_contain(self):
+                place.ant.contain_ant(self)
+            elif self.can_contain(place.ant):
+                self.contain_ant(place.ant)
+                place.ant = self
+            else:
+                assert place.ant is None, 'Two ants in {0}'.format(place)
             # END Problem 9
         Insect.add_to(self, place)
 
@@ -320,14 +326,10 @@ class ContainerAnt(Ant):
         self.contained_ant = None
 
     def can_contain(self, other):
-        # BEGIN Problem 9
-        "*** YOUR CODE HERE ***"
-        # END Problem 9
+        return not isinstance(other, ContainerAnt) and self.contained_ant is None
 
     def contain_ant(self, ant):
-        # BEGIN Problem 9
-        "*** YOUR CODE HERE ***"
-        # END Problem 9
+        self.contained_ant = ant
 
     def remove_ant(self, ant):
         if self.contained_ant is not ant:
@@ -345,9 +347,8 @@ class ContainerAnt(Ant):
             Ant.remove_from(self, place)
 
     def action(self, gamestate):
-        # BEGIN Problem 9
-        "*** YOUR CODE HERE ***"
-        # END Problem 9
+        if self.contained_ant is not None:
+            self.contained_ant.action(gamestate)
 
 
 class BodyguardAnt(ContainerAnt):
@@ -355,11 +356,15 @@ class BodyguardAnt(ContainerAnt):
 
     name = 'Bodyguard'
     food_cost = 4
-    # OVERRIDE CLASS ATTRIBUTES HERE
-    # BEGIN Problem 9
-    implemented = False  # Change to True to view in the GUI
-    # END Problem 9
+    implemented = True  # Change to True to view in the GUI
+    # def __init__(self, *args, **kwargs):
+    #     ContainerAnt.__init__(self, *args, **kwargs)
+    #     self.contained_ant = self
+    # def contain_ant(self, other):
+    #     self.contained_ant = ant
 
+    def __init__(self, armor=2):
+        ContainerAnt.__init__(self, armor)
 
 class TankAnt(ContainerAnt):
     """TankAnt provides both offensive and defensive capabilities."""
