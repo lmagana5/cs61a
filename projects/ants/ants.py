@@ -357,11 +357,6 @@ class BodyguardAnt(ContainerAnt):
     name = 'Bodyguard'
     food_cost = 4
     implemented = True  # Change to True to view in the GUI
-    # def __init__(self, *args, **kwargs):
-    #     ContainerAnt.__init__(self, *args, **kwargs)
-    #     self.contained_ant = self
-    # def contain_ant(self, other):
-    #     self.contained_ant = ant
 
     def __init__(self, armor=2):
         ContainerAnt.__init__(self, armor)
