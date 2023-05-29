@@ -50,7 +50,7 @@ class Insect:
     """An Insect, the base class of Ant and Bee, has armor and a Place."""
 
     damage = 0
-
+    is_watersafe = False
     # ADD CLASS ATTRIBUTES HERE
 
     def __init__(self, armor, place=None):
@@ -369,8 +369,6 @@ class TankAnt(ContainerAnt):
     food_cost = 6
     implemented = True  # Change to True to view in the GUI
 
-    # END Problem 10
-
     def __init__(self, armor=2):
         ContainerAnt.__init__(self, armor)
 
@@ -388,9 +386,9 @@ class Water(Place):
     def add_insect(self, insect):
         """Add an Insect to this place. If the insect is not watersafe, reduce
         its armor to 0."""
-        # BEGIN Problem 11
-        "*** YOUR CODE HERE ***"
-        # END Problem 11
+        Place.add_insect(self, insect)
+        if insect.is_watersafe is False:
+            insect.reduce_armor(insect.armor)
 
 
 # BEGIN Problem 12
@@ -449,6 +447,7 @@ class Bee(Insect):
 
     name = 'Bee'
     damage = 1
+    is_watersafe = True
 
 
     def sting(self, ant):
