@@ -390,12 +390,12 @@ class Water(Place):
         if insect.is_watersafe is False:
             insect.reduce_armor(insect.armor)
 
+class ScubaThrower(ThrowerAnt):
+    name = 'Scuba'
+    implemented = True
+    is_watersafe = True
+    food_cost = 6
 
-# BEGIN Problem 12
-# The ScubaThrower class
-# END Problem 12
-
-# BEGIN Problem 13
 class QueenAnt(Ant):  # You should change this line
     # END Problem 13
     """The Queen of the colony. The game is over if a bee enters her place."""
