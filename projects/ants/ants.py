@@ -51,7 +51,6 @@ class Insect:
 
     damage = 0
     is_watersafe = False
-    # ADD CLASS ATTRIBUTES HERE
 
     def __init__(self, armor, place=None):
         """Create an Insect with an ARMOR amount and a starting PLACE."""
@@ -108,6 +107,7 @@ class Ant(Insect):
     def __init__(self, armor=1):
         """Create an Ant with an ARMOR quantity."""
         Insect.__init__(self, armor)
+        self.double = False
 
     def can_contain(self, other):
         return False
@@ -117,6 +117,10 @@ class Ant(Insect):
 
     def remove_ant(self, other):
         assert False, "{0} cannot contain an ant".format(self)
+    
+    def double(self):
+        self.double = True
+        self.damage = self.damage * 2
 
     def add_to(self, place):
         if place.ant is None:
@@ -130,7 +134,6 @@ class Ant(Insect):
                 place.ant = self
             else:
                 assert place.ant is None, 'Two ants in {0}'.format(place)
-            # END Problem 9
         Insect.add_to(self, place)
 
     def remove_from(self, place):
@@ -142,7 +145,6 @@ class Ant(Insect):
             # container or other situation
             place.ant.remove_ant(self)
         Insect.remove_from(self, place)
-
 
 
 class HarvesterAnt(Ant):
@@ -278,13 +280,10 @@ class HungryAnt(Ant):
         Ant.__init__(self, armor)
         self.digesting = 0
 
-
     def eat_bee(self, bee):
         if bee is not None:
             self.digesting = self.time_to_digest
             bee.reduce_armor(bee.armor)
-
-
 
     def action(self, gamestate):
         if self.digesting > 0:
@@ -396,22 +395,19 @@ class ScubaThrower(ThrowerAnt):
     is_watersafe = True
     food_cost = 6
 
-class QueenAnt(Ant):  # You should change this line
-    # END Problem 13
+class QueenAnt(ScubaThrower):  # You should change this line
     """The Queen of the colony. The game is over if a bee enters her place."""
 
     name = 'Queen'
     food_cost = 7
-    # OVERRIDE CLASS ATTRIBUTES HERE
-    # BEGIN Problem 13
-    implemented = False  # Change to True to view in the GUI
-
-    # END Problem 13
-
+    implemented = True  # Change to True to view in the GUI
+    is_watersafe = True
+    queenAnts = []
+  
     def __init__(self, armor=1):
-        # BEGIN Problem 13
-        "*** YOUR CODE HERE ***"
-        # END Problem 13
+        Ant.__init__(self, armor)
+        self.queenAnts.append(self)
+
 
     def action(self, gamestate):
         """A queen ant throws a leaf, but also doubles the damage of ants
@@ -419,17 +415,37 @@ class QueenAnt(Ant):  # You should change this line
 
         Impostor queens do only one thing: reduce their own armor to 0.
         """
-        # BEGIN Problem 13
-        "*** YOUR CODE HERE ***"
-        # END Problem 13
+        ant_place = self.place.exit
+        if len(self.queenAnts) > 1:
+            if self != self.queenAnts[0]:
+                Insect.reduce_armor(self, self.armor)
+                self.queenAnts.pop()
+        else:
+            while ant_place is not None:
+                if ant_place.ant is not None:
+                    if isinstance(ant_place.ant, ContainerAnt):
+                        if ant_place.ant.contained_ant is not None and not ant_place.ant.contained_ant.double:
+                            ant_place.ant.contained_ant.double = True
+                            Ant.double(ant_place.ant.contained_ant)
+                    if not ant_place.ant.double:
+                        ant_place.ant.double = True
+                        Ant.double(ant_place.ant)
+                ant_place = ant_place.exit
+            ScubaThrower.action(self, gamestate)
+
+    def remove_from(self, place):
+        if self != self.queenAnts[0]:
+            super().remove_from(place)
+        else:
+            place.ant = self 
 
     def reduce_armor(self, amount):
-        """Reduce armor by AMOUNT, and if the True QueenAnt has no armor
-        remaining, signal the end of the game.
-        """
-        # BEGIN Problem 13
-        "*** YOUR CODE HERE ***"
-        # END Problem 13
+        if self != self.queenAnts[0]:
+            super().reduce_armor(amount)
+        else:
+            self.armor -= amount
+            if self.armor <= 0:
+                bees_win()
 
 
 class AntRemover(Ant):
