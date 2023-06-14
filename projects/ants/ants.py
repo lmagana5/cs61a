@@ -465,6 +465,11 @@ class Bee(Insect):
     damage = 1
     is_watersafe = True
 
+    def __init__(self, armor=1):
+        Insect.__init__(self, armor)
+        self.direction = True
+        self.scared = False
+
 
     def sting(self, ant):
         """Attack an ANT, reducing its armor by 1."""
@@ -488,10 +493,8 @@ class Bee(Insect):
         gamestate -- The GameState, used to access game state information.
         """
         destination = self.place.exit
-        # Extra credit: Special handling for bee direction
-        # BEGIN EC
-        "*** YOUR CODE HERE ***"
-        # END EC
+        if self.direction is False and self.place.entrance != gamestate.beehive:
+            destination = self.place.entrance
         if self.blocked():
             self.sting(self.place.ant)
         elif self.armor > 0 and destination is not None:
@@ -515,26 +518,40 @@ def make_slow(action, bee):
 
     action -- An action method of some Bee
     """
-    # BEGIN Problem EC
-    "*** YOUR CODE HERE ***"
-    # END Problem EC
-
+    def slow_action(gamestate):
+        if gamestate.time % 2 == 0:
+            action(gamestate)
+    return slow_action
 
 def make_scare(action, bee):
     """Return a new action method that makes the bee go backwards.
 
     action -- An action method of some Bee
     """
-    # BEGIN Problem EC
-    "*** YOUR CODE HERE ***"
-    # END Problem EC
+    def scare_action(gamestate):
+        bee.direction = False
+        action(gamestate)
+        bee.direction = True
+        bee.scared = True
+    return scare_action
 
 
 def apply_effect(effect, bee, duration):
     """Apply a status effect to a BEE that lasts for DURATION turns."""
-    # BEGIN Problem EC
-    "*** YOUR CODE HERE ***"
-    # END Problem EC
+    turn = 0
+    original_action = bee.action
+    status_action = effect(original_action, bee) 
+    def status(gamestate):
+        nonlocal turn
+        if turn < duration:
+            status_action(gamestate)
+            turn += 1
+        else:
+            original_action(gamestate)
+    
+    bee.action = status
+
+
 
 
 class SlowThrower(ThrowerAnt):
@@ -542,10 +559,9 @@ class SlowThrower(ThrowerAnt):
 
     name = 'Slow'
     food_cost = 4
-    # BEGIN Problem EC
-    implemented = False  # Change to True to view in the GUI
 
-    # END Problem EC
+    implemented = True  # Change to True to view in the GUI
+
 
     def throw_at(self, target):
         if target:
@@ -557,15 +573,12 @@ class ScaryThrower(ThrowerAnt):
 
     name = 'Scary'
     food_cost = 6
-    # BEGIN Problem EC
-    implemented = False  # Change to True to view in the GUI
-
-    # END Problem EC
+    implemented = True  # Change to True to view in the GUI
 
     def throw_at(self, target):
-        # BEGIN Problem EC
-        "*** YOUR CODE HERE ***"
-        # END Problem EC
+        if target and target.scared is False:
+            apply_effect(make_scare, target, 2)
+            
 
 
 class LaserAnt(ThrowerAnt):
