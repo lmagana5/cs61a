@@ -82,7 +82,13 @@ def preorder(t):
     >>> preorder(Tree(2, [Tree(4, [Tree(6)])]))
     [2, 4, 6]
     """
-    "*** YOUR CODE HERE ***"
+    if t.is_leaf():
+        return [t.label]
+    else:
+        tree = []
+        for b in t.branches:
+            tree += preorder(b)
+        return [t.label] + tree
 
 def store_digits(n):
     """Stores the digits of a positive number n in a linked list.
