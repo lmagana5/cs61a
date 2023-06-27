@@ -101,7 +101,20 @@ def store_digits(n):
     >>> store_digits(876)
     Link(8, Link(7, Link(6)))
     """
-    "*** YOUR CODE HERE ***"
+    linked_list = None
+    digit = n
+
+    while n >= 1:
+        digit = n%10
+        n = n//10
+
+        if not linked_list:
+            linked_list = Link(digit)
+        else:
+            linked_list = Link(digit, linked_list)
+
+    return linked_list
+
 
 def generate_paths(t, value):
     """Yields all possible paths from the root of t to a node with the label value
