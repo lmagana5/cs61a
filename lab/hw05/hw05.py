@@ -115,7 +115,6 @@ def store_digits(n):
 
     return linked_list
 
-
 def generate_paths(t, value):
     """Yields all possible paths from the root of t to a node with the label value
     as a list.
@@ -151,14 +150,14 @@ def generate_paths(t, value):
     [[0, 2], [0, 2, 1, 2]]
     """
 
-    "*** YOUR CODE HERE ***"
+    if t.label == value:
+        yield [t.label]
+        
+    for b in t.branches:
+        for path in generate_paths(b, value):
+            yield [t.label] + path
 
-    for _______________ in _________________:
-        for _______________ in _________________:
-
-            "*** YOUR CODE HERE ***"
-
-## Optional Questions
+    ## Optional Questions
 def is_bst(t):
     """Returns True if the Tree t has the structure of a valid BST.
 
@@ -184,7 +183,55 @@ def is_bst(t):
     >>> is_bst(t7)
     False
     """
-    "*** YOUR CODE HERE ***"
+
+    def bst_min(t):
+        """return the min label in BST"""
+        if t.is_leaf():
+            return t.label
+        else:
+            tree = []
+            for b in t.branches:
+                tree.append( bst_min(b))
+            tree.append(t.label)
+            return min(tree)
+
+    def bst_max(t): 
+        if t.is_leaf():
+            return t.label
+        else:
+            tree = []
+            for b in t.branches:
+                tree.append( bst_max(b))
+            tree.append(t.label)
+            return max(tree)
+
+    def bst(t):
+        if t.is_leaf():
+            return True
+
+        elif len(t.branches) == 1:
+            left, right = t.branches[0], t.branches[0]
+            if bst_min(right) >= t.label or bst_max(left) <= t.label:
+                return True
+            else:
+                return False
+
+        elif len(t.branches) == 2:
+            left, right = t.branches [0], t.branches [1]
+            if bst_min(right) >= t.label and bst_max(left) <= t.label:
+                # print("DEBUG:",left)
+                return True
+            else:
+                return False
+
+        else:
+            return False
+
+    return all([bst(t)] + [bst(b) for b in t.branches])  == True
+
+    
+
+    
 class Mint:
     """A mint creates coins by stamping on years.
 
