@@ -283,7 +283,6 @@ class Coin:
 
     def worth(self):
         years = Mint.current_year - self.year
-        # print(self.kind == Nickel)
         if years >= 50:
             if self.kind == Nickel:
                 return Nickel.cents + years - 50
@@ -316,7 +315,18 @@ def remove_all(link , value):
     >>> print(l1)
     <0 1>
     """
-    "*** YOUR CODE HERE ***"
+
+    
+    # link2 = link
+    if link.rest is Link.empty:
+        return
+
+    else:
+        if link.rest.first == value:
+            link.rest = link.rest.rest
+        return remove_all(link.rest, value)
+
+    # link = link2
 def deep_map(f, link):
     """Return a Link with the same structure as link but with fn mapped over
     its elements. If an element is an instance of a linked list, recursively
